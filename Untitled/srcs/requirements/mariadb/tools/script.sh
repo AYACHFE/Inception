@@ -1,7 +1,7 @@
 #!/bin/bash
 # sleep 10
 # this line loads the variables in the .env file
-source /home/ayac/Desktop/ft_/srcs/.env
+. ./.env
 mysqld &
 while ! mysqladmin ping --silent; do
     sleep 1
