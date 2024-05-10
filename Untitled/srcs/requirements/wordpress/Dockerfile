@@ -20,5 +20,5 @@ COPY tools/.env /.env
 ####
 RUN chmod 777 /script.sh
 EXPOSE 9000
-# CMD ["/script.sh"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/script.sh"]
+# CMD ["tail", "-f", "/dev/null"]

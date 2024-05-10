@@ -1,4 +1,20 @@
 <?php
+// Get the environment variables
+$db_name = getenv('DB_NAME');
+$db_user = getenv('DB_USER');
+$db_password = getenv('DB_PASSWORD');
+$db_host = getenv('DB_HOST');
+
+// Print the environment variables
+echo "DB_NAME: $db_name<br>";
+echo "DB_USER: $db_user<br>";
+echo "DB_PASSWORD: $db_password<br>";
+echo "DB_HOST: $db_host<br>";
+
+// Exit the script
+exit;
+
+<?php
 /**
  * La configuration de base de votre installation WordPress.
  *
