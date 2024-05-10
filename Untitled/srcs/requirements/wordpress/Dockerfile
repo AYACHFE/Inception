@@ -13,7 +13,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 RUN chmod 777 wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-COPY wp-config.php /var/www/wordpress/wp-config-sample.php
+# COPY wp-config.php /var/www/wordpress/wp-config-sample.php
+COPY wp-config.php /var/www/wordpress/wp-config.php
 ###should be fixed
 COPY tools/script.sh /script.sh
 COPY tools/.env /.env
