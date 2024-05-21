@@ -1,18 +1,18 @@
-version: '3'  # Specifies the version of Docker Compose file format being used.
+version: '3'
 services:
-  mariadb:  # Defines a service named "mariadb".
-    container_name: mariadb  # Sets the name of the container that will be created for this service.
-    networks:  # Specifies the networks the service will be connected to.
-    - inception  # Connects the service to a network named "inception".
-    build:  # Specifies the build configuration for the service.
-      context: requirements/mariadb  # Sets the build context to the "requirements/mariadb" directory. This is where Docker will look for the Dockerfile.
-      dockerfile: Dockerfile  # Specifies the name of the Dockerfile. Docker will look for a file named "Dockerfile" in the build context directory.
-    env_file: .env  # Specifies a file named ".env" that contains environment variables to be set in the service's containers.
-    volumes:  # Specifies the volumes to be mounted in the service's containers.
+  mariadb:
+    container_name: mariadb
+    networks:
+    - inception
+    build:
+      context: requirements/mariadb
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
     - mariadb:/var/lib/mysql
-    restart: unless-stopped  # Configures the service to automatically restart unless it has been explicitly stopped.
-    expose:  # Specifies the ports to be exposed by the service's containers.
-    - "3306"  # Exposes port 3306.
+    restart: unless-stopped
+    expose:
+    - "3306"
 
   nginx:
     container_name: nginx
@@ -20,15 +20,15 @@ services:
     - wordpress:/var/www/wordpress
     networks:
     - inception
-    depends_on:        			 # Nouvelle ligne, indiquant de ne pas démarrer NGINX tant que WordPress n'a pas démarré.
+    depends_on:
     - wordpress
     build: 
       context: requirements/nginx
       dockerfile: Dockerfile
     env_file: .env
     ports:
-    - "443:443" 		# on indique le port qui sera exposé a la machine locale
-    restart: on-failure 		# Ici nous changeons, le container redémarrera uniquement en cas de crash.
+    - "443:443"
+    restart: on-failure
 
   wordpress:
     container_name: wordpress
@@ -40,7 +40,7 @@ services:
     build: 
       context: requirements/wordpress
       dockerfile: Dockerfile
-    depends_on:    					# WordPress démarrera uniquement après MariaDB (sinon il ne pourra pas configurer la base de données...)
+    depends_on:
     - mariadb
     restart: on-failure
     expose: 
@@ -48,16 +48,16 @@ services:
 
 volumes:
   wordpress:
-    driver: local # ici nous stockons le volume en local
+    driver: local
     driver_opts:
-      type: 'none' 									# aucun type spécifique
+      type: 'none'
       o: 'bind'
       device: '/Users/gebruiker/Desktop/wordpress'
   mariadb:
     driver: local
     driver_opts:
       type: 'none' 
-      o: 'bind'										 # Les Bind Mounts sont des volumes qui se montent sur un chemin d'accès à l'hôte, et ils peuvent être modifiés par d'autres processus en dehors de docker.
+      o: 'bind'
       device: '/Users/gebruiker/Desktop/mariadb'
   
 networks:

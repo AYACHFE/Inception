@@ -1,19 +1,15 @@
 #!/bin/bash
-# sleep 5
-. ./.env
 
-echo "-----------------_________------------------"
-if [ ! -f /var/www/wordpress/wp-config.php ]; then
-    echo "wp-config.php does not exist, creating new file"
-    wp config create --allow-root \
-        --dbname=$SQL_DATABASE \
-        --dbuser=$SQL_USER \
-        --dbpass=$SQL_PASSWORD \
-        --dbhost=mariadb:3306 --path='/var/www/wordpress'
-else
-    echo "wp-config.php exists, updating existing file"
-    wp config set DB_NAME $SQL_DATABASE --allow-root --path='/var/www/wordpress'
-    wp config set DB_USER $SQL_USER --allow-root --path='/var/www/wordpress'
-    wp config set DB_PASSWORD $SQL_PASSWORD --allow-root --path='/var/www/wordpress'
-    wp config set DB_HOST mariadb:3306 --allow-root --path='/var/www/wordpress'
-fi
+mkdir -p /var/www/wordpress
+chown -R www-data:www-data /var/www/wordpress
+chmod -R 755 /var/www/wordpress
+cd /var/www/wordpress
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+chmod 777 wp-cli.phar
+mv wp-cli.phar /usr/local/bin/wp
+wp core download --allow-root
+wp config create --dbname=wordpress --dbuser=ayac --dbpass=ayac --dbhost=mariadb --allow-root
+wp core install --url="localhost" --title="Inception" --admin_user=root --admin_password=root --admin_email=root@root.com --skip-email --allow-root
+sed -i "s|listen = /run/php/php8.2-fpm.sock|listen = 0.0.0.0:9000|g" /etc/php/8.2/fpm/pool.d/www.conf
+
+exec php-fpm8.2 -F
