@@ -34,13 +34,15 @@ mariadb-install-db  --user=mysql --datadir=/var/lib/mysql
 cat << EOF > /tmp/init_db.sql
 
 FLUSH PRIVILEGES;
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
-CREATE DATABASE IF NOT EXISTS wordpress;
-CREATE USER IF NOT EXISTS 'ayac'@'%' IDENTIFIED BY 'ayac';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'ayac'@'%';
+ALTER USER '${MYSQL_USER_ROOT}'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+CREATE DATABASE IF NOT EXISTS ${SQL_DATABASE};
+CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${SQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 FLUSH PRIVILEGES;
 
 EOF
+# echo "script out\n";
+# cat /tmp/init_db.sql
 
 # Flush privileges to apply changes
 # Delete empty users (if any)
