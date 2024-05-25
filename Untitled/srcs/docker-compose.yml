@@ -1,9 +1,9 @@
-version: '3'
+# version: '3'
 services:
   mariadb:
     container_name: mariadb
     networks:
-    - inception
+    - my_network
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
     volumes:
     - wordpress:/var/www/wordpress
     networks:
-    - inception
+    - my_network
     depends_on:
     - wordpress
     build: 
@@ -36,7 +36,7 @@ services:
     volumes:
     - wordpress:/var/www/wordpress
     networks:
-    - inception
+    - my_network
     build: 
       context: requirements/wordpress
       dockerfile: Dockerfile
@@ -61,5 +61,5 @@ volumes:
       device: '/Users/gebruiker/Desktop/mariadb'
   
 networks:
-  inception:
+  my_network:
     driver: bridge

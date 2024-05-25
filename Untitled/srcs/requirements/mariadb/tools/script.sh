@@ -25,12 +25,6 @@ echo "script in\n";
 
 mariadb-install-db  --user=mysql --datadir=/var/lib/mysql
 
-# if [ -d "/var/lib/mysql/wordpress"]; then
-#     echo "Database already exists"
-#     exec "$@"
-#     exit 0
-# fi
-
 cat << EOF > /tmp/init_db.sql
 
 FLUSH PRIVILEGES;
@@ -55,5 +49,11 @@ EOF
 
 mariadbd --user=mysql --bootstrap < /tmp/init_db.sql
 
-# exec "$@"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER '${MYSQL_USER_ROOT}'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${SQL_DATABASE};"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${SQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
+# mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
+
 exec mariadbd --user=mysql --bind-address=0.0.0.0
