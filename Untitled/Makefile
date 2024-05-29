@@ -1,6 +1,8 @@
 all:
 	docker compose -f srcs/docker-compose.yml up
 build:
+	sudo rm -rf /home/ayac/data/mariadb/*
+	sudo rm -rf /home/ayac/data/wordpress/*
 	docker compose -f srcs/docker-compose.yml up --build
 
 clean:
@@ -9,10 +11,10 @@ clean:
 	
 fclean: clean
 	@echo "\033[0;32m--------------Started Deep Cleaning--------------\033[0m"
-	docker volume prune -f
+	docker system prune -af
 	# docker rmi -f $$(docker images -q)
-	rm -rf /Users/gebruiker/Desktop/mariadb/*
-	rm -rf /Users/gebruiker/Desktop/wordpress/*
+	sudo rm -rf /home/ayac/data/mariadb/*
+	sudo rm -rf /home/ayac/data/wordpress/*
 	@echo "\033[0;32m--------------Done Cleaning--------------\033[0m"
 
 re: fclean all

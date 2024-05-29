@@ -11,8 +11,8 @@ RUN apt-get update && \
 
 COPY /tools/script.sh .
 
-RUN chmod +x script.sh
+RUN chmod 777 script.sh
 
-EXPOSE 9000
 
-ENTRYPOINT [ "sh", "script.sh" ]
+
+CMD "./script.sh"

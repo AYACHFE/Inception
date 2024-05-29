@@ -10,7 +10,7 @@ services:
     env_file: .env
     volumes:
     - mariadb:/var/lib/mysql
-    restart: unless-stopped
+    restart: unless-stopped ## the container always restart unless it is stopped manually
     expose:
     - "3306"
 
@@ -28,7 +28,7 @@ services:
     env_file: .env
     ports:
     - "443:443"
-    restart: on-failure
+    restart: on-failure ##the container is only restarted if the exit code is different than zero
 
   wordpress:
     container_name: wordpress
@@ -52,13 +52,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/Users/gebruiker/Desktop/wordpress'
+      device: '/home/ayac/data/wordpress'
   mariadb:
     driver: local
     driver_opts:
       type: 'none' 
       o: 'bind'
-      device: '/Users/gebruiker/Desktop/mariadb'
+      device: '/home/ayac/data/mariadb'
   
 networks:
   my_network:
