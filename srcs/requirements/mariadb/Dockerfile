@@ -11,6 +11,4 @@ COPY /tools/script.sh /script.sh
 
 RUN chmod 777 script.sh
 
-EXPOSE 3306
-
-CMD "./script.sh"
+CMD ["/script.sh"]
