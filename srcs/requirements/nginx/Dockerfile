@@ -1,13 +1,14 @@
-FROM alpine:3.18
-# FROM debian:bookworm
+# FROM alpine:3.18
+FROM debian:bookworm
 
-RUN apk update && apk add nginx openssl
+
+RUN apt update && apt install -y nginx openssl
 
 WORKDIR /var/www/
 
-RUN mkdir html
+RUN mkdir -p html
 
-COPY default.conf /etc/nginx/http.d/
+COPY /tools/default.conf /etc/nginx/nginx.conf
 
 #get the certificat key
 RUN mkdir /etc/nginx/ssl && \
@@ -16,6 +17,5 @@ RUN mkdir /etc/nginx/ssl && \
     -out /etc/nginx/ssl/aachfenn.crt  \
     -subj "/C=MA/L=Tetouan/O=Organization/CN=Company_name"
 
-# EXPOSE 443
-# -g specifies the config
+
 CMD ["nginx", "-g", "daemon off;"]
