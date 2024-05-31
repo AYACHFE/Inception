@@ -1,5 +1,5 @@
 all:
-	docker compose -f srcs/docker-compose.yml up
+	docker compose -f srcs/docker-compose.yml up -d --build
 build:
 	sudo rm -rf /home/ayac/data/mariadb/*
 	sudo rm -rf /home/ayac/data/wordpress/*
